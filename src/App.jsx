@@ -18,21 +18,40 @@ export default function App() {
   }, []);
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? data.length - 1 : prevIndex - 1));
+    setCurrentIndex((currentIndex) => (currentIndex === 0 ? data.length - 1 : currentIndex - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === data.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((currentIndex) => (currentIndex === data.length - 1 ? 0 : currentIndex + 1));
   };
 
+  function resolvePokemonIndex(wishedIndex) {
+    switch (wishedIndex) {
+      case -2:
+        return data[currentIndex === 0 ? data.length - 2 : currentIndex === 1 ? data.length - 1 : currentIndex - 2];
+      case -1:
+        return data[currentIndex === 0 ? data.length - 1 : currentIndex + wishedIndex];
+      case 1:
+        return data[currentIndex === data.length - 1 ? 0 : currentIndex + wishedIndex];
+      case 2:
+        return data[currentIndex === data.length - 2 ? 0 : currentIndex === data.length - 1 ? 1 : currentIndex + 2];
+      default:
+        return currentIndex;
+    }
+  }
+
   return (
-    <div className="text-center mt-10 mx-auto max-w-fit">
+    <div className="text-center h-screen content-center mx-auto max-w-fit">
       {data.length > 0 ? (
         <>
           <div className="flex items-center gap-8">
+            <PokemonCard pokemon={resolvePokemonIndex(-2)} />
+            <PokemonCard pokemon={resolvePokemonIndex(-1)} />
             <NavigationButton text="←" onClick={handlePrev} />
-            <PokemonCard pokemon={data[currentIndex]} />
+            <PokemonCard isCurrentIndex pokemon={data[currentIndex]} />
             <NavigationButton text="→" onClick={handleNext} />
+            <PokemonCard pokemon={resolvePokemonIndex(1)} />
+            <PokemonCard pokemon={resolvePokemonIndex(2)} />
           </div>
         </>
       ) : (

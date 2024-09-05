@@ -1,12 +1,12 @@
 import React from "react";
 
-export function PokemonCard({ pokemon }) {
+export function PokemonCard({ pokemon, isCurrentIndex }) {
   if (!pokemon) {
     return <p>Chargement...</p>;
   }
 
   return (
-    <div className="p-5 w-72 h-[500px] mx-auto border-2 border-gray-600 rounded-lg">
+    <div className={`p-5 w-72 h-[500px] mx-auto border-2 border-gray-600 rounded-lg ${isCurrentIndex ? "" : "opacity-70"}`}>
       {/* Noms */}
       <h2 className="text-2xl font-bold">{pokemon.name?.fr || "Inconnu"}</h2>
       <div className="mt-1 flex justify-around">
